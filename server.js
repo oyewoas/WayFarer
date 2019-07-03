@@ -1,11 +1,11 @@
 import express from 'express';
-
 import dotenv from 'dotenv';
-
+import 'babel-polyfill';
 import cors from 'cors';
+import env from './env';
+import { createAllTables } from './app/db/dbConnection';
 
-import env from './.env';
-
+createAllTables();
 dotenv.config();
 const app = express();
 
@@ -16,8 +16,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 app.listen(env.port).on('listening', () => {
-  console.log(`🚀 are live on ' ${env.port}`);
+  console.log(`🚀 are live on ${env.port}`);
 });
 
 
-module.exports = app;
+export default app;
