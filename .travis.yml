@@ -7,3 +7,7 @@ cache:
     - "node_modules"
 after_success:
   - npm run coveralls
+addons:
+  code_climate:
+    repo_token:
+      secure: "LC8BzYEY9yZAAVQVfbLXw5bu9uQhjkcmYB7KJKONzna4k5FmCVKDi6ReKG1BnFkq7hLTXVJt90yJzSdgwgTJAG+1Fa5yBMHN4AnB+IAui2zZJp0IGXc3GWrS9GmeZQbmtFVForKY1frfUfUTEX7ls/3mYz+2YwZWZ2F1HyfXKE5AmOnDqceyWHtk3wCSI1DUrffdoHk53dMp7XB2nA/nFaKo/NNgyc2eWEdC9HsTueaAk9AMTzAS+LQs2V+x5pyTo9esJh3MxxBJj31Di1YMnlcLlVm4Fm0dnNwytI7/Y3+K6DbDoq/mCjEwWRMLtx2ThIG+D8iPhSG6CYM2gCRNRskMUUB02Hdoo5+s0KyS3h5YxNot4zS5kgSrxoz2n6aqnI0tzkYdiJid46cknAY+5LebFnskAM+aTqFCGsyNDymxcq9LoLMMYP8fwuu+ln8axiIOFcXmdh3++hRO76pweP/Lzbr88RfJthMcE70ZnesrYzfAFcmWkq6tYD94yKJjBnWll4Z+dkG7DYs7BHIu2mxjidZAerovFGq79PB1TyngH02TBid7fFZwPhgkt+tQ8oPL2k7TMddiwJUPAq9JCXa7kC9660hkbP8A1lficxCFXVp1L2YGG/1s0bATpvMZdvGE/2OfEgxzJMp2YXsdaaf4V5Zt0bJqmZIE1pyL7Vk="
