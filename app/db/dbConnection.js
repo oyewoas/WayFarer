@@ -8,13 +8,13 @@ pool.on('connect', () => {
  * Create User Table
  */
 const createUserTable = () => {
-  const userCreateQuery = `CREATE TABLE IF NOT EXISTS user
+  const userCreateQuery =
+    `CREATE TABLE IF NOT EXISTS users
   (id SERIAL PRIMARY KEY, 
   email VARCHAR(100) UNIQUE NOT NULL, 
   first_name VARCHAR(100), 
   last_name VARCHAR(100), 
-  password VARCHAR(200) NOT NULL,
-  registered DATE NOT NULL,
+  password VARCHAR(100) NOT NULL,
   is_admin BOOL DEFAULT(false))`;
 
   pool.query(userCreateQuery)
@@ -62,7 +62,7 @@ const createTripTable = () => {
     destination VARCHAR(300) NOT NULL,
     trip_date DATE NOT NULL,
     fare float NOT NULL,
-    status float DEFAULT(active))`;
+    status float DEFAULT(1.00))`;
 
   pool.query(tripCreateQuery)
     .then((res) => {
@@ -79,12 +79,11 @@ const createTripTable = () => {
  * Create Booking Table
  */
 const createBookingTable = () => {
-  const bookingCreateQuery = `CREATE TABLE IF NOT EXISTS booking
-      (id SERIAL PRIMARY KEY, 
+  const bookingCreateQuery = `CREATE TABLE IF NOT EXISTS booking(id SERIAL, 
       trip_id INTEGER REFERENCES trip(id) ON DELETE CASCADE,
-      user_id INTEGER REFERENCES user(id) ON DELETE CASCADE,
-      created_on DATE NOT NULL
-      PRIMARY KEY (trip_id, user_id))`;
+      user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+      created_on DATE NOT NULL,
+      PRIMARY KEY (id, trip_id, user_id));`;
   pool.query(bookingCreateQuery)
     .then((res) => {
       console.log(res);
@@ -100,7 +99,7 @@ const createBookingTable = () => {
  * Drop User Table
  */
 const dropUserTable = () => {
-  const usersDropQuery = 'DROP TABLE IF EXISTS user returning *';
+  const usersDropQuery = 'DROP TABLE IF EXISTS users returning *';
   pool.query(usersDropQuery)
     .then((res) => {
       console.log(res);
@@ -168,8 +167,8 @@ const dropBookingTable = () => {
 const createAllTables = () => {
   createUserTable();
   createBusTable();
-  createBookingTable();
   createTripTable();
+  createBookingTable();
 };
 
 
@@ -192,14 +191,6 @@ pool.on('remove', () => {
 export {
   createAllTables,
   dropAllTables,
-  createBookingTable,
-  createBusTable,
-  createTripTable,
-  createUserTable,
-  dropBookingTable,
-  dropBusTable,
-  dropTripTable,
-  dropUserTable,
 };
 
 require('make-runnable');

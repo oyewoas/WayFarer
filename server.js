@@ -3,9 +3,7 @@ import dotenv from 'dotenv';
 import 'babel-polyfill';
 import cors from 'cors';
 import env from './env';
-import { createAllTables } from './app/db/dbConnection';
 
-createAllTables();
 dotenv.config();
 const app = express();
 
