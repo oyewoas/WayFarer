@@ -14,8 +14,8 @@ addons:
 before_script:
   - npm install codeclimate-test-reporter istanbul -g
   - psql -c 'create database travis_ci_test;' -U postgres
-  - npm run create-test-database
-  - npm run create-test-database
+  - npm run create-test-tables
+  - npm run create-test-tables
 
 script: npm test
 
