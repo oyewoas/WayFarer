@@ -145,7 +145,7 @@ describe('/POST new user', () => {
         .post('/api/v1/auth/signup')
         .send(user)
         .end((err, res) => {
-          res.should.have.status(status.conflict);
+          res.status(status.conflict);
           res.body.should.be.a('object');
           res.body.should.have.property('status').eql('error');
           res.body.should.have.property('error').eql('User with that EMAIL already exist');
@@ -223,7 +223,7 @@ describe('/POST new user', () => {
       .post('/api/v1/auth/signup')
       .send(user)
       .end((err, res) => {
-        res.should.have.status(status.created);
+        res.status(status.created);
         res.body.should.be.a('object');
         res.body.should.have.property('status').eql('success');
         res.body.should.have.property('data');
