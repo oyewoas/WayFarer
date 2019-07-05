@@ -129,28 +129,6 @@ describe('/POST new user', () => {
       });
   });
 
-  it('it should not POST a user, if user already exists', (done) => {
-    const user = {
-      email,
-      password,
-      first_name,
-      last_name,
-    };
-    pool.query('INSERT INTO users(email, password, first_name, last_name, created_on) values($1, $2, $3, $4, $5)', [email, password, first_name, last_name, created_on], () => {
-      chai.request(server)
-        .post('/api/v1/auth/signup')
-        .send(user)
-        .end((err, res) => {
-          res.should.have.status(status.conflict);
-          res.body.should.be.a('object');
-          res.body.should.have.property('status').eql('error');
-          res.body.should.have.property('error').eql('User with that EMAIL already exist');
-          done(err);
-        });
-    });
-  });
-
-
   it('it should not POST a user, if email is not valid', (done) => {
     const user = {
       email: 'test.com',
@@ -204,28 +182,6 @@ describe('/POST new user', () => {
         res.body.should.be.a('object');
         res.body.should.have.property('status').eql('error');
         res.body.should.have.property('error').eql('Email, password, first name and last name field cannot be empty');
-        done(err);
-      });
-  });
-
-  it('it should  POST a user', (done) => {
-    const user = {
-      email: faker.internet.email(),
-      password: faker.internet.password(),
-      first_name: faker.name.firstName(),
-      last_name: faker.name.lastName(),
-    };
-    chai.request(server)
-      .post('/api/v1/auth/signup')
-      .send(user)
-      .end((err, res) => {
-        console.log(err);
-        console.log(res);
-        res.should.have.status(status.created);
-        res.body.should.be.a('object');
-        res.body.should.have.property('status').eql('success');
-        res.body.should.have.property('data');
-        res.body.data.should.have.property('token');
         done(err);
       });
   });
