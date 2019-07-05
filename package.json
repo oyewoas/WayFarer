@@ -4,7 +4,7 @@
   "description": "WayFarer is a public bus transportation booking server, developed the back-end API with NodeJs",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --require babel-core/register ./test/**/*.js --timeout 150000",
+    "test": "mocha --require babel-core/register ./test/**/*.js --timeout 10000",
     "create-dev-tables": "babel-node ./app/db/dev/dbConnection createAllTables",
     "create-test-tables": "babel-node ./app/db/test/dbConnection createAllTables",
     "coverage": "babel-node ./node_modules/.bin/babel-istanbul  cover _mocha -- -R spec \"./test/*.spec.js\" --timeout 15000000 --compilers js:babel-core/register",
