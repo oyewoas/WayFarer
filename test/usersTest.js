@@ -56,7 +56,7 @@ describe('/POST new user', () => {
         res.body.should.be.a('object');
         res.body.should.have.property('status').eql('error');
         res.body.should.have.property('error').eql('Email, password, first name and last name field cannot be empty');
-        done(err);
+        done();
       });
   });
 
@@ -72,7 +72,7 @@ describe('/POST new user', () => {
         res.body.should.be.a('object');
         res.body.should.have.property('status').eql('error');
         res.body.should.have.property('error').eql('Email, password, first name and last name field cannot be empty');
-        done(err);
+        done();
       });
   });
 
@@ -91,7 +91,7 @@ describe('/POST new user', () => {
         res.body.should.be.a('object');
         res.body.should.have.property('status').eql('error');
         res.body.should.have.property('error').eql('Email, password, first name and last name field cannot be empty');
-        done(err);
+        done();
       });
   });
 
@@ -110,7 +110,7 @@ describe('/POST new user', () => {
         res.body.should.be.a('object');
         res.body.should.have.property('status').eql('error');
         res.body.should.have.property('error').eql('Email, password, first name and last name field cannot be empty');
-        done(err);
+        done();
       });
   });
 
@@ -129,7 +129,7 @@ describe('/POST new user', () => {
         res.body.should.be.a('object');
         res.body.should.have.property('status').eql('error');
         res.body.should.have.property('error').eql('Email, password, first name and last name field cannot be empty');
-        done(err);
+        done();
       });
   });
 
@@ -149,7 +149,7 @@ describe('/POST new user', () => {
           res.body.should.be.a('object');
           res.body.should.have.property('status').eql('error');
           res.body.should.have.property('error').eql('User with that EMAIL already exist');
-          done(err);
+          done();
         });
     });
   });
@@ -170,7 +170,7 @@ describe('/POST new user', () => {
         res.body.should.be.a('object');
         res.body.should.have.property('status').eql('error');
         res.body.should.have.property('error').eql('Please enter a valid Email');
-        done(err);
+        done();
       });
   });
 
@@ -189,7 +189,7 @@ describe('/POST new user', () => {
         res.body.should.be.a('object');
         res.body.should.have.property('status').eql('error');
         res.body.should.have.property('error').eql('Password must be more than five(5) characters');
-        done(err);
+        done();
       });
   });
 
@@ -208,7 +208,7 @@ describe('/POST new user', () => {
         res.body.should.be.a('object');
         res.body.should.have.property('status').eql('error');
         res.body.should.have.property('error').eql('Email, password, first name and last name field cannot be empty');
-        done(err);
+        done();
       });
   });
 
@@ -228,7 +228,7 @@ describe('/POST new user', () => {
         res.body.should.have.property('status').eql('success');
         res.body.should.have.property('data');
         res.body.data.should.have.property('token');
-        done(err);
+        done();
       });
   });
 });
