@@ -184,5 +184,6 @@ describe('/POST new user', () => {
         res.body.should.have.property('error').eql('Email, password, first name and last name field cannot be empty');
         done(err);
       });
+    process.exit(0);
   });
 });
