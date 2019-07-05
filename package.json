@@ -5,10 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha --require babel-core/register ./test/**/*.js --timeout 10000",
-    "cover": "istanbul cover _mocha",
     "create-dev-tables": "babel-node ./app/db/dev/dbConnection createAllTables",
     "create-test-tables": "babel-node ./app/db/test/dbConnection createAllTables",
-    "coveralls": "npm run cover -- --report lcovonly && cat ./coverage/lcov.info | coveralls",
+    "coverage": "babel-node ./node_modules/.bin/babel-istanbul  cover _mocha -- -R spec \"./test/*.spec.js\" --timeout 15000000 --compilers js:babel-core/register",
+    "report-coverage": "cat ./coverage/lcov.info | coveralls",
     "start": "nodemon --watch . --exec babel-node -- server"
   },
   "repository": {
@@ -16,7 +16,7 @@
     "url": "git+https://github.com/oyewoas/WayFarer.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "Ayooluwa Oyewo",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/oyewoas/WayFarer/issues"
@@ -25,8 +25,12 @@
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
+    "babel-istanbul": "^0.12.2",
+    "babel-plugin-istanbul": "^5.1.4",
     "babel-preset-env": "^1.7.0",
+    "babel-preset-es2015": "^6.24.1",
     "babel-register": "^6.26.0",
+    "babel-watch": "^7.0.0",
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
     "coveralls": "^3.0.4",
@@ -36,7 +40,8 @@
     "istanbul": "^0.4.5",
     "mocha": "^6.1.4",
     "mocha-lcov-reporter": "^1.3.0",
-    "nodemon": "^1.19.1"
+    "nodemon": "^1.19.1",
+    "nyc": "^14.1.1"
   },
   "dependencies": {
     "babel-polyfill": "^6.26.0",
@@ -51,5 +56,16 @@
     "moment": "^2.24.0",
     "pg": "^7.11.0",
     "sinon": "^7.3.2"
+  },
+  "nyc": {
+    "require": [
+      "babel-register"
+    ],
+    "reporter": [
+      "lcov",
+      "text"
+    ],
+    "sourceMap": false,
+    "instrument": false
   }
 }
