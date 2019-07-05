@@ -69,6 +69,45 @@ const createUser = async (req, res) => {
   }
 };
 
+/**
+   * Signin
+   * @param {object} req
+   * @param {object} res
+   * @returns {object} user object
+   */
+const siginUser = async (req, res) => {
+  const { email, password } = req.body;
+  if (isEmpty(email) || isEmpty(password)) {
+    errorMessage.error = 'Email or Password detail is missing';
+    return res.status(status.bad).send(errorMessage);
+  }
+  if (!isValidEmail(email) || !validatePassword(password)) {
+    errorMessage.error = 'Please enter a valid Email or Password';
+    return res.status(status.bad).send(errorMessage);
+  }
+  const signinUserQuery = 'SELECT * FROM users WHERE email = $1';
+  try {
+    const { rows } = await dbQuery.query(signinUserQuery, [email]);
+    const dbResponse = rows[0];
+    if (!dbResponse) {
+      errorMessage.error = 'User with this email does not exist';
+      return res.status(status.notfound).send(errorMessage);
+    }
+    if (!comparePassword(dbResponse.password, password)) {
+      errorMessage.error = 'The password you provided is incorrect';
+      return res.status(status.bad).send(errorMessage);
+    }
+    const token = generateUserToken(dbResponse.email, dbResponse.user_id);
+    delete dbResponse.password;
+    successMessage.data = dbResponse;
+    successMessage.data.token = token;
+    return res.status(status.success).send(successMessage);
+  } catch (error) {
+    return res.status(400).send(error);
+  }
+};
+
 export {
   createUser,
+  siginUser,
 };

@@ -184,6 +184,127 @@ describe('/POST new user', () => {
         res.body.should.have.property('error').eql('Email, password, first name and last name field cannot be empty');
         done(err);
       });
+  });
+});
+
+
+// SignIn testing
+describe('/POST Sign user in', () => {
+  it('it should not log a user in without email field', (done) => {
+    const user = {
+      password,
+    };
+    chai.request(server)
+      .post('/api/v1/auth/signin')
+      .send(user)
+      .end((err, res) => {
+        res.should.have.status(status.bad);
+        res.body.should.be.a('object');
+        res.body.should.have.property('status').eql('error');
+        res.body.should.have.property('error').eql('Email or Password detail is missing');
+        done(err);
+      });
+  });
+
+  it('it should not Log a user in without password field', (done) => {
+    const user = {
+      email,
+    };
+    chai.request(server)
+      .post('/api/v1/auth/signin')
+      .send(user)
+      .end((err, res) => {
+        res.should.have.status(status.bad);
+        res.body.should.be.a('object');
+        res.body.should.have.property('status').eql('error');
+        res.body.should.have.property('error').eql('Email or Password detail is missing');
+        done(err);
+      });
+  });
+
+  it('it should not Log a user in, if password is empty spaces', (done) => {
+    const user = {
+      email,
+      password: '         ',
+    };
+    chai.request(server)
+      .post('/api/v1/auth/signin')
+      .send(user)
+      .end((err, res) => {
+        res.should.have.status(status.bad);
+        res.body.should.be.a('object');
+        res.body.should.have.property('status').eql('error');
+        res.body.should.have.property('error').eql('Email or Password detail is missing');
+        done(err);
+      });
+  });
+
+  it('it should not Log a user in, if email is empty', (done) => {
+    const user = {
+      email: '',
+      password,
+    };
+    chai.request(server)
+      .post('/api/v1/auth/signin')
+      .send(user)
+      .end((err, res) => {
+        res.should.have.status(status.bad);
+        res.body.should.be.a('object');
+        res.body.should.have.property('status').eql('error');
+        res.body.should.have.property('error').eql('Email or Password detail is missing');
+        done(err);
+      });
+  });
+
+  it('it should not Log a user in, if email is incorrect', (done) => {
+    const user = {
+      email: 'test.com',
+      password,
+    };
+    chai.request(server)
+      .post('/api/v1/auth/signin')
+      .send(user)
+      .end((err, res) => {
+        res.should.have.status(status.bad);
+        res.body.should.be.a('object');
+        res.body.should.have.property('status').eql('error');
+        res.body.should.have.property('error').eql('Please enter a valid Email or Password');
+        done(err);
+      });
+  });
+
+  it('it should not Log a user in, if password is substandard', (done) => {
+    const user = {
+      email,
+      password: 'pass',
+    };
+    chai.request(server)
+      .post('/api/v1/auth/signin')
+      .send(user)
+      .end((err, res) => {
+        res.should.have.status(status.bad);
+        res.body.should.be.a('object');
+        res.body.should.have.property('status').eql('error');
+        res.body.should.have.property('error').eql('Please enter a valid Email or Password');
+        done(err);
+      });
+  });
+
+  it('it should not LOG a user in if user does not exist', (done) => {
+    const user = {
+      email: faker.internet.email(),
+      password: faker.internet.password(8),
+    };
+    chai.request(server)
+      .post('/api/v1/auth/signin')
+      .send(user)
+      .end((err, res) => {
+        res.should.have.status(status.notfound);
+        res.body.should.be.a('object');
+        res.body.should.have.property('status').eql('error');
+        res.body.should.have.property('error').eql('User with this email does not exist');
+        done(err);
+      });
     process.exit(0);
   });
 });
