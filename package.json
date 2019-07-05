@@ -7,7 +7,7 @@
     "test": "mocha --require babel-core/register ./test/**/*.js --timeout 10000",
     "create-dev-tables": "babel-node ./app/db/dev/dbConnection createAllTables",
     "create-test-tables": "babel-node ./app/db/test/dbConnection createAllTables",
-    "coverage": "babel-node ./node_modules/.bin/babel-istanbul  cover _mocha -- -R spec \"./test/*.spec.js\" --timeout 15000000 --compilers js:babel-core/register",
+    "coverage": "babel-node ./node_modules/.bin/babel-istanbul  cover _mocha -- --report lcovonly spec \"./test/*.spec.js\" --timeout 15000000 --compilers js:babel-core/register",
     "report-coverage": "cat ./coverage/lcov.info | coveralls",
     "start": "nodemon --watch . --exec babel-node -- server",
     "setup": "npm run start && npm run create-test-tables && npm run test"

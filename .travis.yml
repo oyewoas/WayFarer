@@ -33,3 +33,6 @@ branches:
 env:
   global:
     - CC_TEST_REPORTER_ID=533db323adc59d22c0866acb887c8c7aab1dca445818f5a5e3e2f3b0bb2fc7aa
+
+after_success:
+  npm run report-coverage
