@@ -13,6 +13,10 @@ import {
   status,
 } from '../app/helpers/status';
 
+// import { createAllTables } from '../app/db/test/dbConnection';
+
+// createAllTables()
+
 chai.use(chaiHttp);
 const should = chai.should();
 should;
