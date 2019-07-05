@@ -13,10 +13,6 @@ import {
   status,
 } from '../app/helpers/status';
 
-// import { createAllTables } from '../app/db/test/dbConnection';
-
-// createAllTables()
-
 chai.use(chaiHttp);
 const should = chai.should();
 should;
@@ -56,7 +52,7 @@ describe('/POST new user', () => {
         res.body.should.be.a('object');
         res.body.should.have.property('status').eql('error');
         res.body.should.have.property('error').eql('Email, password, first name and last name field cannot be empty');
-        done();
+        done(err);
       });
   });
 
@@ -72,7 +68,7 @@ describe('/POST new user', () => {
         res.body.should.be.a('object');
         res.body.should.have.property('status').eql('error');
         res.body.should.have.property('error').eql('Email, password, first name and last name field cannot be empty');
-        done();
+        done(err);
       });
   });
 
@@ -91,7 +87,7 @@ describe('/POST new user', () => {
         res.body.should.be.a('object');
         res.body.should.have.property('status').eql('error');
         res.body.should.have.property('error').eql('Email, password, first name and last name field cannot be empty');
-        done();
+        done(err);
       });
   });
 
@@ -110,7 +106,7 @@ describe('/POST new user', () => {
         res.body.should.be.a('object');
         res.body.should.have.property('status').eql('error');
         res.body.should.have.property('error').eql('Email, password, first name and last name field cannot be empty');
-        done();
+        done(err);
       });
   });
 
@@ -129,7 +125,7 @@ describe('/POST new user', () => {
         res.body.should.be.a('object');
         res.body.should.have.property('status').eql('error');
         res.body.should.have.property('error').eql('Email, password, first name and last name field cannot be empty');
-        done();
+        done(err);
       });
   });
 
@@ -145,11 +141,11 @@ describe('/POST new user', () => {
         .post('/api/v1/auth/signup')
         .send(user)
         .end((err, res) => {
-          res.status(status.conflict);
+          res.should.have.status(status.conflict);
           res.body.should.be.a('object');
           res.body.should.have.property('status').eql('error');
           res.body.should.have.property('error').eql('User with that EMAIL already exist');
-          done();
+          done(err);
         });
     });
   });
@@ -170,7 +166,7 @@ describe('/POST new user', () => {
         res.body.should.be.a('object');
         res.body.should.have.property('status').eql('error');
         res.body.should.have.property('error').eql('Please enter a valid Email');
-        done();
+        done(err);
       });
   });
 
@@ -189,7 +185,7 @@ describe('/POST new user', () => {
         res.body.should.be.a('object');
         res.body.should.have.property('status').eql('error');
         res.body.should.have.property('error').eql('Password must be more than five(5) characters');
-        done();
+        done(err);
       });
   });
 
@@ -204,10 +200,11 @@ describe('/POST new user', () => {
       .post('/api/v1/auth/signup')
       .send(user)
       .end((err, res) => {
+        res.should.have.status(status.bad);
         res.body.should.be.a('object');
         res.body.should.have.property('status').eql('error');
         res.body.should.have.property('error').eql('Email, password, first name and last name field cannot be empty');
-        done();
+        done(err);
       });
   });
 
@@ -222,11 +219,14 @@ describe('/POST new user', () => {
       .post('/api/v1/auth/signup')
       .send(user)
       .end((err, res) => {
+        console.log(err);
+        console.log(res);
+        res.should.have.status(status.created);
         res.body.should.be.a('object');
         res.body.should.have.property('status').eql('success');
         res.body.should.have.property('data');
         res.body.data.should.have.property('token');
-        done();
+        done(err);
       });
   });
 });
