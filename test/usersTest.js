@@ -204,7 +204,6 @@ describe('/POST new user', () => {
       .post('/api/v1/auth/signup')
       .send(user)
       .end((err, res) => {
-        res.should.have.status(status.bad);
         res.body.should.be.a('object');
         res.body.should.have.property('status').eql('error');
         res.body.should.have.property('error').eql('Email, password, first name and last name field cannot be empty');
@@ -223,7 +222,6 @@ describe('/POST new user', () => {
       .post('/api/v1/auth/signup')
       .send(user)
       .end((err, res) => {
-        res.status(status.created);
         res.body.should.be.a('object');
         res.body.should.have.property('status').eql('success');
         res.body.should.have.property('data');
