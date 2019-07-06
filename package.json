@@ -13,7 +13,7 @@
     "coverage": "babel-node ./node_modules/.bin/babel-istanbul  cover _mocha -- --report lcovonly spec \"./test/*.spec.js\" --timeout 15000000 --compilers js:babel-core/register",
     "report-coverage": "cat ./coverage/lcov.info | coveralls",
     "start": "nodemon --watch . --exec babel-node -- server",
-    "build": "npm-run-all -p start create-dev-tables"
+    "setup": "npm-run-all -p start create-dev-tables"
   },
   "repository": {
     "type": "git",
