@@ -9,7 +9,7 @@ pool.on('connect', () => {
  * SEED Admin User
  */
 const seed = () => {
-  const seedUserQuery =        `INSERT INTO
+  const seedUserQuery = `INSERT INTO
     users VALUES 
     ( default, 'samuel@gmail.com', 'Samuel', 'Adekunle', 'samade', true, NOW()),
     ( default, 'eze@gmail.com', 'Eze', 'Kelly', 'ezekelly', true, NOW()),
