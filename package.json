@@ -6,11 +6,14 @@
   "scripts": {
     "test": "mocha --require babel-core/register ./test/**/*.js --timeout 10000",
     "create-dev-tables": "babel-node ./app/db/dev/dbConnection createAllTables",
+    "drop-dev-tables": "babel-node ./app/db/dev/dbConnection dropAllTables",
     "create-test-tables": "babel-node ./app/db/test/dbConnection createAllTables",
+    "drop-test-tables": "babel-node ./app/db/test/dbConnection dropAllTables",
+    "seed-user-table": "babel-node ./app/helpers/seed seedUser",
     "coverage": "babel-node ./node_modules/.bin/babel-istanbul  cover _mocha -- --report lcovonly spec \"./test/*.spec.js\" --timeout 15000000 --compilers js:babel-core/register",
     "report-coverage": "cat ./coverage/lcov.info | coveralls",
     "start": "nodemon --watch . --exec babel-node -- server",
-    "setup": "npm run start && npm run create-test-tables && npm run test"
+    "build": "npm-run-all -p start create-dev-tables"
   },
   "repository": {
     "type": "git",
@@ -56,6 +59,7 @@
     "jsonwebtoken": "^8.5.1",
     "make-runnable": "^1.3.6",
     "moment": "^2.24.0",
+    "npm-run-all": "^4.1.5",
     "pg": "^7.11.0",
     "sinon": "^7.3.2"
   },

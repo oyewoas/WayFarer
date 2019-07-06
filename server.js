@@ -3,7 +3,8 @@ import dotenv from 'dotenv';
 import 'babel-polyfill';
 import cors from 'cors';
 import env from './env';
-import UsersRoute from './app/routes/usersRoute';
+import usersRoute from './app/routes/usersRoute';
+import seedRoute from './app/routes/seedRoute';
 
 dotenv.config();
 const app = express();
@@ -13,7 +14,8 @@ app.use(cors());
 // Add middleware for parsing JSON and urlencoded data and populating `req.body`
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-app.use('/api/v1', UsersRoute);
+app.use('/api/v1', usersRoute);
+app.use('/api/v1', seedRoute);
 
 app.listen(env.port).on('listening', () => {
   console.log(`🚀 are live on ${env.port}`);
