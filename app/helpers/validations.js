@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import env from '../../env';
@@ -59,24 +60,16 @@ const isEmpty = (input) => {
    * @param {string} id
    * @returns {string} token
    */
-const generateUserToken = (email, id) => {
+const generateUserToken = (email, user_id, is_admin) => {
   const token = jwt.sign({
     user_email: email,
-    user_id: id,
+    user_id,
+    is_admin,
   },
   env.secret, { expiresIn: '3d' });
   return token;
 };
 
-const generateAdminToken = (email, id, isAdmin) => {
-  const token = jwt.sign({
-    admin_email: email,
-    admin_id: id,
-    is_admin: isAdmin,
-  },
-  env.secret, { expiresIn: '3d' });
-  return token;
-};
 
 export {
   hashPassword,
@@ -85,5 +78,4 @@ export {
   validatePassword,
   isEmpty,
   generateUserToken,
-  generateAdminToken,
 };
