@@ -1,6 +1,6 @@
 import express from 'express';
 
-import { createAdmin } from '../controllers/adminController';
+import { createAdmin, updateUserToAdmin } from '../controllers/adminController';
 import verifyAuth from '../middlewares/verifyAuth';
 
 const router = express.Router();
@@ -8,5 +8,6 @@ const router = express.Router();
 // users Routes
 
 router.post('/admin/signup', verifyAuth, createAdmin);
+router.put('/user/:id/is_admin', verifyAuth, updateUserToAdmin);
 
 export default router;

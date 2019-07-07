@@ -16,7 +16,7 @@ import {
 } from '../helpers/status';
 
 /**
-   * Create A User
+   * Create A Admin
    * @param {object} req
    * @param {object} res
    * @returns {object} reflection object
@@ -78,4 +78,52 @@ const createAdmin = async (req, res) => {
   }
 };
 
-export { createAdmin }
+/**
+ * Update A User to Admin
+ * @param {object} req 
+ * @param {object} res 
+ * @returns {object} updated user
+ */
+const updateUserToAdmin = async (req, res) => {
+  const { id } = req.params;
+  const { isAdmin } = req.body;
+
+  const { is_admin } = req.user;
+
+  if (!is_admin === true) {
+    errorMessage.error = 'Sorry You are unauthorized to create and admin';
+    return res.status(status.bad).send(errorMessage);
+  }
+  if (isAdmin === '') {
+    errorMessage.error = 'Admin Status is needed';
+    return res.status(status.bad).send(errorMessage);
+  }
+  const findUserQuery = 'SELECT * FROM users WHERE user_id=$1';
+  const updateUser = `UPDATE users
+        SET is_admin=$1 WHERE user_id=$2 returning *`;
+  try {
+    const { rows } = await dbQuery.query(findUserQuery, [id]);
+    const dbResponse = rows[0];
+    if (!dbResponse) {
+      errorMessage.error = 'User Cannot be found';
+      return res.status(status.notfound).send(errorMessage);
+    }
+    const values = [
+      isAdmin,
+      id,
+    ];
+    const response = await dbQuery.query(updateUser, values);
+    const dbResult = response.rows[0];
+    delete dbResult.password;
+    successMessage.data = dbResult;
+    return res.status(status.success).send(successMessage);
+  } catch (err) {
+    errorMessage.error = 'Operation was not successful';
+    return res.status(status.error).send(errorMessage);
+  }
+}; 
+  
+export {
+  createAdmin,
+  updateUserToAdmin,
+};

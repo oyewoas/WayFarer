@@ -18,6 +18,7 @@ const email = 'test@gmail.com';
 const password = 'testingtesting';
 const first_name = 'sammy';
 const last_name = 'jay';
+const isAdmin = true;
 const token = jwt.sign(
   {
     email: 'test@gmail.com',
@@ -105,7 +106,7 @@ describe('/POST new admin', () => {
       });
   });
 
-  it('it should not CREATE a admin with empty email or adminname field only', (done) => {
+  it('it should not CREATE a admin with empty first_name, last_name or email field only', (done) => {
     const admin = {
       password,
       first_name: '',
@@ -125,7 +126,7 @@ describe('/POST new admin', () => {
       });
   });
 
-  it('it should not CREATE a admin with empty adminname or password field only', (done) => {
+  it('it should not CREATE a admin with empty first_name, last_name or password field only', (done) => {
     const admin = {
       email,
       first_name: '',
@@ -201,6 +202,55 @@ describe('/POST new admin', () => {
         res.body.should.be.a('object');
         res.body.should.have.property('status').eql('error');
         res.body.should.have.property('error').eql('Email, password, first name and last name field cannot be empty');
+        done(err);
+      });
+  });
+});
+
+describe('/PUT update user to admin', () => {
+  it('it should not UPDATE a user to admin if auth token is not provided', (done) => {
+    chai.request(server)
+      .put('/api/v1/user/1/is_admin')
+      .end((err, res) => {
+        res.should.have.status(status.bad);
+        res.body.should.be.a('object');
+        res.body.should.have.property('status').eql('error');
+        res.body.should.have.property('error').eql('Token not provided');
+        done(err);
+      });
+  });
+
+  it('it should not UPDATE a user to admin if isAdmin is empty', (done) => {
+    const admin = {
+      isAdmin: '',
+    };
+    chai.request(server)
+      .put('/api/v1/user/1/is_admin')
+      .set('x-access-token', token)
+      .send(admin)
+      .end((err, res) => {
+        res.should.have.status(status.bad);
+        res.body.should.be.a('object');
+        res.body.should.have.property('status').eql('error');
+        res.body.should.have.property('error').eql('Admin Status is needed');
+        done(err);
+      });
+  });
+
+  it('it should  UPDATE a user to admin', (done) => {
+    const admin = {
+      isAdmin,
+    };
+    chai.request(server)
+      .put('/api/v1/user/1/is_admin')
+      .set('x-access-token', token)
+      .send(admin)
+      .end((err, res) => {
+        res.should.have.status(status.success);
+        res.body.should.be.a('object');
+        res.body.should.have.property('status').eql('success');
+        res.body.should.have.property('data');
+        res.body.data.should.have.property('is_admin').eql(true);
         done(err);
       });
   });

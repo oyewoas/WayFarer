@@ -98,7 +98,6 @@ const siginUser = async (req, res) => {
       return res.status(status.bad).send(errorMessage);
     }
     const token = generateUserToken(dbResponse.email, dbResponse.user_id, dbResponse.is_admin);
-    console.log(token)
     delete dbResponse.password;
     successMessage.data = dbResponse;
     successMessage.data.token = token;
