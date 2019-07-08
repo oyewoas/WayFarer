@@ -56,6 +56,17 @@ const isEmpty = (input) => {
 };
 
 /**
+   * empty helper method
+   * @param {string, integer} input
+   * @returns {Boolean} True or False
+   */
+const empty = (input) => {
+  if (input === undefined || input === '') {
+    return true;
+  }
+};
+
+/**
    * Generate Token
    * @param {string} id
    * @returns {string} token
@@ -77,5 +88,6 @@ export {
   isValidEmail,
   validatePassword,
   isEmpty,
+  empty,
   generateUserToken,
 };
