@@ -57,7 +57,7 @@ const createUser = async (req, res) => {
     const { rows } = await dbQuery.query(createUserQuery, values);
     const dbResponse = rows[0];
     delete dbResponse.password;
-    const token = generateUserToken(dbResponse.email, dbResponse.user_id, dbResponse.is_admin);
+    const token = generateUserToken(dbResponse.email, dbResponse.user_id, dbResponse.is_admin, dbResponse.first_name, dbResponse.last_name);
     successMessage.data = dbResponse;
     successMessage.data.token = token;
     return res.status(status.created).send(successMessage);
@@ -97,7 +97,7 @@ const siginUser = async (req, res) => {
       errorMessage.error = 'The password you provided is incorrect';
       return res.status(status.bad).send(errorMessage);
     }
-    const token = generateUserToken(dbResponse.email, dbResponse.user_id, dbResponse.is_admin);
+    const token = generateUserToken(dbResponse.email, dbResponse.user_id, dbResponse.is_admin, dbResponse.first_name, dbResponse.last_name);
     delete dbResponse.password;
     successMessage.data = dbResponse;
     successMessage.data.token = token;
