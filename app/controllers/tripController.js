@@ -11,6 +11,7 @@ import {
 import {
   errorMessage, successMessage, status,
 } from '../helpers/status';
+import { stat } from 'fs';
 
 /**
    * Create A Trip
@@ -59,4 +60,30 @@ const createTrip = async (req, res) => {
   }
 };
 
-export { createTrip };
+/**
+   * Get All Trips
+   * @param {object} req 
+   * @param {object} res 
+   * @returns {object} trips array
+   */
+const getAllTrips = async (req, res) => {
+  const getAllTripsQuery = 'SELECT * FROM trip ORDER BY trip_id DESC';
+  try {
+    const { rows } = await dbQuery.query(getAllTripsQuery);
+    const dbResponse = rows;
+    if (!dbResponse) {
+      errorMessage.error = 'There are no trips';
+      return res.status(status.bad).send(errorMessage);
+    }
+    successMessage.data = dbResponse;
+    return res.status(status.success).send(successMessage);
+  } catch (error) {
+    errorMessage.error = 'An error Occured';
+    return res.status(status.error).send(errorMessage);
+  }
+};
+
+export {
+  createTrip,
+  getAllTrips,
+};

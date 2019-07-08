@@ -133,3 +133,30 @@ describe('/POST new trip', () => {
       });
   });
 });
+
+describe('/GET/ all trips', () => {
+  it('it should return a response of no trips if there are no trips yet', (done) => {
+    chai.request(server)
+      .get('/api/v1/trips')
+      .end((err, res) => {
+        if (res.body.data === undefined) {
+          res.should.have.status(status.error);
+          res.body.should.be.a('object');
+          res.body.should.have.property('status').eql('error');
+          res.body.should.have.property('error').eql('There are no trips');
+        }
+        done(err);
+      });
+  });
+  it('it should GET trips for both users and admins', (done) => {
+    chai.request(server)
+      .get('/api/v1/trips')
+      .end((err, res) => {
+        res.should.have.status(status.success);
+        res.body.should.be.a('object');
+        res.body.should.have.property('status').eql('success');
+        res.body.should.have.property('data');
+        done(err);
+      });
+  });
+});
