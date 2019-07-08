@@ -17,7 +17,7 @@ should;
 
 const number_plate = 'ADC-2443-ADW2';
 const manufacturer = 'Honda';
-const model ='Accord';
+const model = 'Accord';
 const year = 2019;
 const capacity = 20;
 const token = jwt.sign(
@@ -25,6 +25,8 @@ const token = jwt.sign(
     email: 'test@gmail.com',
     user_id: 1,
     is_admin: true,
+    first_name: 'sammy',
+    last_name: 'jay',
   },
   env.secret,
   {

@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import {
@@ -24,7 +25,9 @@ const verifyToken = async (req, res, next) => {
   }
   try {
     const decoded = await jwt.verify(token, env.secret);
-    req.user = { user_id: decoded.user_id, is_admin: decoded.is_admin };
+    req.user = {
+      user_id: decoded.user_id, is_admin: decoded.is_admin, first_name: decoded.first_name, last_name: decoded.last_name,
+    };
     next();
   } catch (error) {
     errorMessage.error = 'Authentication Failed';

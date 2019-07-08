@@ -25,6 +25,8 @@ const token = jwt.sign(
     email: 'test@gmail.com',
     user_id: 1,
     is_admin: true,
+    first_name: 'sammy',
+    last_name: 'jay',
   },
   env.secret,
   {
