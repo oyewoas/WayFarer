@@ -53,7 +53,7 @@ describe('/POST new booking', () => {
       });
   });
 
-  it('it should not CREAETE a booking with empty body details', (done) => {
+  it('it should not CREATE a booking with empty body details', (done) => {
     const booking = {
       trip_id: '',
       bus_id: '',

@@ -3,7 +3,6 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import jwt from 'jsonwebtoken';
-import moment from 'moment';
 import env from '../env';
 import server from '../server';
 import pool from '../app/db/test/pool';

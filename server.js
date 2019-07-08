@@ -1,5 +1,4 @@
 import express from 'express';
-import dotenv from 'dotenv';
 import 'babel-polyfill';
 import cors from 'cors';
 import env from './env';
@@ -10,7 +9,6 @@ import tripRoute from './app/routes/tripRoute';
 import busRoute from './app/routes/busRoute';
 import bookingRoute from './app/routes/bookingRoute';
 
-dotenv.config();
 const app = express();
 
 // Add middleware for parsing URL encoded bodies (which are usually sent by browser)
