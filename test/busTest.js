@@ -91,7 +91,7 @@ describe('/POST new bus', () => {
       });
   });
 
-  it('it should not CREATE a trip with empty bus_id field only', (done) => {
+  it('it should not CREATE a trip with empty number_plate field only', (done) => {
     const trip = {
       number_plate: '',
       manufacturer,
