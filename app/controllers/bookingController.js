@@ -14,7 +14,7 @@ import {
 
 
 /**
-   * Add A Bus
+   * Add A Booking
    * @param {object} req
    * @param {object} res
    * @returns {object} reflection object
@@ -65,7 +65,7 @@ const createBooking = async (req, res) => {
 };
 
 /**
-   * Get All Buses
+   * Get All Bookings
    * @param {object} req 
    * @param {object} res 
    * @returns {object} buses array
@@ -125,7 +125,53 @@ const deleteBooking = async (req, res) => {
     successMessage.data.message = 'Booking deleted successfully';
     return res.status(status.success).send(successMessage);
   } catch (error) {
-    return res.status(400).send(error);
+    return res.status(status.error).send(error);
+  }
+};
+
+/**
+ * Update A User to Admin
+ * @param {object} req 
+ * @param {object} res 
+ * @returns {object} updated user
+ */
+const updateBookingSeat = async (req, res) => {
+  const { bookingId } = req.params;
+  const { seat_number } = req.body;
+
+  const { user_id } = req.user;
+
+  if (empty(seat_number)) {
+    errorMessage.error = 'Seat Number is needed';
+    return res.status(status.bad).send(errorMessage);
+  }
+  const findBookingQuery = 'SELECT * FROM booking WHERE booking_id=$1';
+  const updateBooking = `UPDATE booking
+        SET seat_number=$1 WHERE user_id=$2 AND booking_id=$3 returning *`;
+  try {
+    const { rows } = await dbQuery.query(findBookingQuery, [bookingId]);
+    const dbResponse = rows[0];
+    if (!dbResponse) {
+      errorMessage.error = 'Booking Cannot be found';
+      return res.status(status.notfound).send(errorMessage);
+    }
+    const values = [
+      seat_number,
+      user_id,
+      bookingId,
+    ];
+    const response = await dbQuery.query(updateBooking, values);
+    const dbResult = response.rows[0];
+    delete dbResult.password;
+    successMessage.data = dbResult;
+    return res.status(status.success).send(successMessage);
+  } catch (error) {
+    if (error.routine === '_bt_check_unique') {
+      errorMessage.error = 'Seat Number is taken already';
+      return res.status(status.conflict).send(errorMessage);
+    }
+    errorMessage.error = 'Operation was not successful';
+    return res.status(status.error).send(errorMessage);
   }
 };
 
@@ -133,4 +179,5 @@ export {
   createBooking,
   getAllBookings,
   deleteBooking,
+  updateBookingSeat,
 };
