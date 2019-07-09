@@ -104,7 +104,34 @@ const getAllBookings = async (req, res) => {
   }
 };
 
+
+
+/**
+   * Delete A Booking
+   * @param {object} req 
+   * @param {object} res 
+   * @returns {void} return statuc code 204
+   */
+const deleteBooking = async (req, res) => {
+  const { bookingId } = req.params;
+  const { user_id } = req.user;
+  const deleteBookingQuery = 'DELETE FROM booking WHERE booking_id=$1 AND user_id = $2 returning *';
+  try {
+    const { rows } = await dbQuery.query(deleteBookingQuery, [bookingId, user_id]);
+    const dbResponse = rows[0];
+    if (!dbResponse) {
+      errorMessage.error = 'You have no booking with that id';
+      return res.status(status.notfound).send(errorMessage);
+    }
+    return res.status(status.nocontent).send();
+  } catch (error) {
+    return res.status(400).send(error);
+  }
+};
+  
+
 export {
   createBooking,
   getAllBookings,
+  deleteBooking,
 };

@@ -8,6 +8,7 @@ const status = {
   conflict: 409,
   created: 201,
   bad: 400,
+  nocontent: 204,
 };
 
 export {
