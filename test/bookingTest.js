@@ -124,4 +124,24 @@ describe('/GET/ all bookings', () => {
       });
   });
 });
+
+// delete a booking
+describe('/DELETE/ delete bookings', () => {
+  it('it should return a response if there are no bookings with that id or delete and return a status 204 if the booking is available', (done) => {
+    chai.request(server)
+      .delete('/api/v1/bookings/1')
+      .set('x-access-token', token)
+      .end((err, res) => {
+        if (res.body.data === undefined) {
+          res.should.have.status(status.notfound);
+          res.body.should.be.a('object');
+          res.body.should.have.property('status').eql('error');
+          res.body.should.have.property('error').eql('You have no booking with that id');
+        } else {
+          res.should.have.status(status.nocontent);
+        }
+        done(err);
+      });
+  });
+});
   
