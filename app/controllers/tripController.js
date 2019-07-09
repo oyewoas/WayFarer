@@ -72,7 +72,7 @@ const getAllTrips = async (req, res) => {
     const dbResponse = rows;
     if (!dbResponse[0]) {
       errorMessage.error = 'There are no trips';
-      return res.status(status.bad).send(errorMessage);
+      return res.status(status.notfound).send(errorMessage);
     }
     successMessage.data = dbResponse;
     return res.status(status.success).send(successMessage);

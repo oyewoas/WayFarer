@@ -40,7 +40,7 @@ beforeEach(() => {
 });
 
 
-// Sign Up trip Testing
+// Create Trip Testing
 describe('/POST new trip', () => {
   it('it should not CREATE a trip if auth token is not provided', (done) => {
     chai.request(server)
@@ -142,7 +142,7 @@ describe('/GET/ all trips', () => {
       .get('/api/v1/trips')
       .end((err, res) => {
         if (res.body.data === undefined) {
-          res.should.have.status(status.error);
+          res.should.have.status(status.notfound);
           res.body.should.be.a('object');
           res.body.should.have.property('status').eql('error');
           res.body.should.have.property('error').eql('There are no trips');
@@ -163,7 +163,7 @@ describe('/GET/ all trips', () => {
   });
 });
 
-// delete a trip
+// Delete a trip
 describe('/DELETE/ delete trips', () => {
   it('it should return a response if there are no trips with that id or delete and return trip cancelled successfully', (done) => {
     chai.request(server)

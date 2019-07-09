@@ -79,7 +79,7 @@ const getAllBookings = async (req, res) => {
       const dbResponse = rows;
       if (dbResponse[0] === undefined) {
         errorMessage.error = 'You have no bookings';
-        return res.status(status.bad).send(errorMessage);
+        return res.status(status.notfound).send(errorMessage);
       }
       successMessage.data = dbResponse;
       return res.status(status.success).send(successMessage);
@@ -108,7 +108,7 @@ const getAllBookings = async (req, res) => {
    * Delete A Booking
    * @param {object} req 
    * @param {object} res 
-   * @returns {void} return statuc code 204
+   * @returns {void} return response booking deleted successfully
    */
 const deleteBooking = async (req, res) => {
   const { bookingId } = req.params;
@@ -121,7 +121,9 @@ const deleteBooking = async (req, res) => {
       errorMessage.error = 'You have no booking with that id';
       return res.status(status.notfound).send(errorMessage);
     }
-    return res.status(status.nocontent).send();
+    successMessage.data = {};
+    successMessage.data.message = 'Booking deleted successfully';
+    return res.status(status.success).send(successMessage);
   } catch (error) {
     return res.status(400).send(error);
   }

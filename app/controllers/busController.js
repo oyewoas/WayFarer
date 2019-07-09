@@ -79,7 +79,7 @@ const getAllBuses = async (req, res) => {
     const dbResponse = rows;
     if (dbResponse[0] === undefined) {
       errorMessage.error = 'There are no buses';
-      return res.status(status.bad).send(errorMessage);
+      return res.status(status.notfound).send(errorMessage);
     }
     successMessage.data = dbResponse;
     return res.status(status.success).send(successMessage);

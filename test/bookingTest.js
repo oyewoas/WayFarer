@@ -127,7 +127,7 @@ describe('/GET/ all bookings', () => {
 
 // delete a booking
 describe('/DELETE/ delete bookings', () => {
-  it('it should return a response if there are no bookings with that id or delete and return a status 204 if the booking is available', (done) => {
+  it('it should return a response if there are no bookings with that id or delete and return booking deleted successfully', (done) => {
     chai.request(server)
       .delete('/api/v1/bookings/1')
       .set('x-access-token', token)
@@ -138,10 +138,12 @@ describe('/DELETE/ delete bookings', () => {
           res.body.should.have.property('status').eql('error');
           res.body.should.have.property('error').eql('You have no booking with that id');
         } else {
-          res.should.have.status(status.nocontent);
+          res.should.have.status(status.success);
+          res.body.should.be.a('object');
+          res.body.should.have.property('status').eql('success');
+          res.body.data.should.have.property('message').eql('Booking deleted successfully');
         }
         done(err);
       });
   });
 });
-  
