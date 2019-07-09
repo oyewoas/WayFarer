@@ -64,7 +64,47 @@ const createBooking = async (req, res) => {
   }
 };
 
+/**
+   * Get All Buses
+   * @param {object} req 
+   * @param {object} res 
+   * @returns {object} buses array
+   */
+const getAllBookings = async (req, res) => {
+  const { is_admin, user_id } = req.user;
+  if (!is_admin === true) {
+    const getAllBookingsQuery = 'SELECT * FROM booking WHERE user_id = $1';
+    try {
+      const { rows } = await dbQuery.query(getAllBookingsQuery, [user_id]);
+      const dbResponse = rows;
+      if (dbResponse[0] === undefined) {
+        errorMessage.error = 'You have no bookings';
+        return res.status(status.bad).send(errorMessage);
+      }
+      successMessage.data = dbResponse;
+      return res.status(status.success).send(successMessage);
+    } catch (error) {
+      errorMessage.error = 'An error Occured';
+      return res.status(status.error).send(errorMessage);
+    }
+  }
+  const getAllBookingsQuery = 'SELECT * FROM booking ORDER BY booking_id DESC';
+  try {
+    const { rows } = await dbQuery.query(getAllBookingsQuery);
+    const dbResponse = rows;
+    if (dbResponse[0] === undefined) {
+      errorMessage.error = 'There are no bookings';
+      return res.status(status.bad).send(errorMessage);
+    }
+    successMessage.data = dbResponse;
+    return res.status(status.success).send(successMessage);
+  } catch (error) {
+    errorMessage.error = 'An error Occured';
+    return res.status(status.error).send(errorMessage);
+  }
+};
 
 export {
   createBooking,
+  getAllBookings,
 };

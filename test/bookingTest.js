@@ -94,3 +94,34 @@ describe('/POST new booking', () => {
   });
 });
 
+
+// Get all bookings
+describe('/GET/ all bookings', () => {
+  it('it should return a response of no bookings if there are no bookings yet for an admin', (done) => {
+    chai.request(server)
+      .get('/api/v1/bookings')
+      .set('x-access-token', token)
+      .end((err, res) => {
+        if (res.body.data === undefined) {
+          res.should.have.status(status.error);
+          res.body.should.be.a('object');
+          res.body.should.have.property('status').eql('error');
+          res.body.should.have.property('error').eql('There are no bookings');
+        }
+        done(err);
+      });
+  });
+  it('it should GET all bookings for an admin', (done) => {
+    chai.request(server)
+      .get('/api/v1/bookings')
+      .set('x-access-token', token)
+      .end((err, res) => {
+        res.should.have.status(status.success);
+        res.body.should.be.a('object');
+        res.body.should.have.property('status').eql('success');
+        res.body.should.have.property('data');
+        done(err);
+      });
+  });
+});
+  
