@@ -70,7 +70,7 @@ const getAllTrips = async (req, res) => {
   try {
     const { rows } = await dbQuery.query(getAllTripsQuery);
     const dbResponse = rows;
-    if (!dbResponse) {
+    if (!dbResponse[0]) {
       errorMessage.error = 'There are no trips';
       return res.status(status.bad).send(errorMessage);
     }
@@ -82,7 +82,38 @@ const getAllTrips = async (req, res) => {
   }
 };
 
+/**
+   * cancel A Trip
+   * @param {object} req 
+   * @param {object} res 
+   * @returns {void} return Trip cancelled successfully
+   */
+const cancelTrip = async (req, res) => {
+  const { tripId } = req.params;
+  const { is_admin } = req.user;
+
+  if (!is_admin === true) {
+    errorMessage.error = 'Sorry You are unauthorized to cancel a trip';
+    return res.status(status.bad).send(errorMessage);
+  }
+  const deleteTripQuery = 'DELETE FROM trip WHERE trip_id=$1 returning *';
+  try {
+    const { rows } = await dbQuery.query(deleteTripQuery, [tripId]);
+    const dbResponse = rows[0];
+    if (!dbResponse) {
+      errorMessage.error = 'There is no trip with that id';
+      return res.status(status.notfound).send(errorMessage);
+    }
+    successMessage.data = {};
+    successMessage.data.message = 'Trip cancelled successfully';
+    return res.status(status.success).send(successMessage);
+  } catch (error) {
+    return res.status(status.error).send(error);
+  }
+};
+
 export {
   createTrip,
   getAllTrips,
+  cancelTrip,
 };
