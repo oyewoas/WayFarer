@@ -104,8 +104,6 @@ const getAllBookings = async (req, res) => {
   }
 };
 
-
-
 /**
    * Delete A Booking
    * @param {object} req 
@@ -128,7 +126,6 @@ const deleteBooking = async (req, res) => {
     return res.status(400).send(error);
   }
 };
-  
 
 export {
   createBooking,

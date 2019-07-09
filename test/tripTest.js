@@ -162,3 +162,27 @@ describe('/GET/ all trips', () => {
       });
   });
 });
+
+// delete a trip
+describe('/DELETE/ delete trips', () => {
+  it('it should return a response if there are no trips with that id or delete and return trip cancelled successfully', (done) => {
+    chai.request(server)
+      .patch('/api/v1/trips/1')
+      .set('x-access-token', token)
+      .end((err, res) => {
+        if (res.body.data === undefined) {
+          res.should.have.status(status.notfound);
+          res.body.should.be.a('object');
+          res.body.should.have.property('status').eql('error');
+          res.body.should.have.property('error').eql('There is no trip with that id');
+        } else {
+          res.should.have.status(status.success);
+          res.body.should.be.a('object');
+          res.body.should.have.property('status').eql('success');
+          res.body.data.should.have.property('message').eql('Trip cancelled successfully');
+        }
+        done(err);
+      });
+  });
+});
+  
