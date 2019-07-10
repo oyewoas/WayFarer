@@ -192,7 +192,7 @@ describe('/DELETE/ delete trips', () => {
 describe('/GET/ filter trips by origin', () => {
   it('it should return a response of no trips if there are no trips with that origin', (done) => {
     chai.request(server)
-      .get('/api/v1/trip?origin=ibadan')
+      .get('/api/v1/trips/origin?origin=ibadan')
       .set('x-access-token', token)
       .end((err, res) => {
         if (res.body.data === undefined) {
@@ -206,7 +206,37 @@ describe('/GET/ filter trips by origin', () => {
   });
   it('it should GET trips with that origin', (done) => {
     chai.request(server)
-      .get('/api/v1/trip?origin=Lagos')
+      .get('/api/v1/trips/origin?origin=Lagos')
+      .set('x-access-token', token)
+      .end((err, res) => {
+        res.should.have.status(status.success);
+        res.body.should.be.a('object');
+        res.body.should.have.property('status').eql('success');
+        res.body.should.have.property('data');
+        done(err);
+      });
+  });
+});
+
+// Filter trips with specific destination
+describe('/GET/ filter trips by destination', () => {
+  it('it should return a response of no trips if there are no trips with that destination', (done) => {
+    chai.request(server)
+      .get('/api/v1/trips/destination?destination=ibadan')
+      .set('x-access-token', token)
+      .end((err, res) => {
+        if (res.body.data === undefined) {
+          res.should.have.status(status.notfound);
+          res.body.should.be.a('object');
+          res.body.should.have.property('status').eql('error');
+          res.body.should.have.property('error').eql('No Trips with that destination');
+        }
+        done(err);
+      });
+  });
+  it('it should GET trips with that origin', (done) => {
+    chai.request(server)
+      .get('/api/v1/trips/destination?destination=lagos')
       .set('x-access-token', token)
       .end((err, res) => {
         res.should.have.status(status.success);

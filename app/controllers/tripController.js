@@ -137,9 +137,35 @@ const filterTripByOrigin = async (req, res) => {
   }
 };
 
+/**
+ * filter trips by destination
+ * @param {object} req 
+ * @param {object} res 
+ * @returns {object} returned trips
+ */
+const filterTripByDestination = async (req, res) => {
+  const { destination } = req.query;
+
+  const findTripQuery = 'SELECT * FROM trip WHERE destination=$1 ORDER BY trip_id DESC';
+  try {
+    const { rows } = await dbQuery.query(findTripQuery, [destination]);
+    const dbResponse = rows;
+    if (!dbResponse[0]) {
+      errorMessage.error = 'No Trips with that destination';
+      return res.status(status.notfound).send(errorMessage);
+    }
+    successMessage.data = dbResponse;
+    return res.status(status.success).send(successMessage);
+  } catch (error) {
+    errorMessage.error = 'Operation was not successful';
+    return res.status(status.error).send(errorMessage);
+  }
+};
+
 export {
   createTrip,
   getAllTrips,
   cancelTrip,
   filterTripByOrigin,
+  filterTripByDestination,
 };
