@@ -4,7 +4,7 @@ import moment from 'moment';
 import dbQuery from '../db/dev/dbQuery';
 
 import {
-  isEmpty,
+  isEmpty, empty,
 } from '../helpers/validations';
 
 
@@ -22,7 +22,7 @@ const createTrip = async (req, res) => {
   const {
     bus_id, origin, destination, trip_date, fare,
   } = req.body;
-  
+
   const { is_admin } = req.user;
   if (!is_admin === true) {
     errorMessage.error = 'Sorry You are unauthorized to create a trip';
@@ -31,7 +31,7 @@ const createTrip = async (req, res) => {
 
   const created_on = moment(new Date());
 
-  if (bus_id === '' || isEmpty(origin) || isEmpty(destination) || trip_date === '' || fare === '') {
+  if (empty(bus_id) || isEmpty(origin) || isEmpty(destination) || empty(trip_date) || empty(fare)) {
     errorMessage.error = 'Origin, Destination, Trip Date and Fare, field cannot be empty';
     return res.status(status.bad).send(errorMessage);
   }
@@ -112,8 +112,34 @@ const cancelTrip = async (req, res) => {
   }
 };
 
+/**
+ * filter trips by origin
+ * @param {object} req 
+ * @param {object} res 
+ * @returns {object} returned trips
+ */
+const filterTripByOrigin = async (req, res) => {
+  const { origin } = req.query;
+
+  const findTripQuery = 'SELECT * FROM trip WHERE origin=$1 ORDER BY trip_id DESC';
+  try {
+    const { rows } = await dbQuery.query(findTripQuery, [origin]);
+    const dbResponse = rows;
+    if (!dbResponse[0]) {
+      errorMessage.error = 'No Trips with that origin';
+      return res.status(status.notfound).send(errorMessage);
+    }
+    successMessage.data = dbResponse;
+    return res.status(status.success).send(successMessage);
+  } catch (error) {
+    errorMessage.error = 'Operation was not successful';
+    return res.status(status.error).send(errorMessage);
+  }
+};
+
 export {
   createTrip,
   getAllTrips,
   cancelTrip,
+  filterTripByOrigin,
 };
