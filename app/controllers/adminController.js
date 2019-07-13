@@ -26,12 +26,12 @@ const createAdmin = async (req, res) => {
     email, first_name, last_name, password,
   } = req.body;
 
-  const { is_admin } = req.user;
+  const { admin } = req.user;
 
   const isAdmin = true;
   const created_on = moment(new Date());
 
-  if (!is_admin === true) {
+  if (!admin === true) {
     errorMessage.error = 'Sorry You are unauthorized to create an admin';
     return res.status(status.bad).send(errorMessage);
   }
@@ -88,9 +88,9 @@ const updateUserToAdmin = async (req, res) => {
   const { id } = req.params;
   const { isAdmin } = req.body;
 
-  const { is_admin } = req.user;
+  const { admin } = req.user;
 
-  if (!is_admin === true) {
+  if (!admin === true) {
     errorMessage.error = 'Sorry You are unauthorized to make a user an admin';
     return res.status(status.bad).send(errorMessage);
   }
@@ -98,9 +98,9 @@ const updateUserToAdmin = async (req, res) => {
     errorMessage.error = 'Admin Status is needed';
     return res.status(status.bad).send(errorMessage);
   }
-  const findUserQuery = 'SELECT * FROM users WHERE user_id=$1';
+  const findUserQuery = 'SELECT * FROM users WHERE id=$1';
   const updateUser = `UPDATE users
-        SET is_admin=$1 WHERE user_id=$2 returning *`;
+        SET is_admin=$1 WHERE id=$2 returning *`;
   try {
     const { rows } = await dbQuery.query(findUserQuery, [id]);
     const dbResponse = rows[0];
@@ -117,7 +117,8 @@ const updateUserToAdmin = async (req, res) => {
     delete dbResult.password;
     successMessage.data = dbResult;
     return res.status(status.success).send(successMessage);
-  } catch (err) {
+  } catch (error) {
+    console.log(error)
     errorMessage.error = 'Operation was not successful';
     return res.status(status.error).send(errorMessage);
   }

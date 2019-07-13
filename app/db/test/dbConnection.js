@@ -8,9 +8,8 @@ pool.on('connect', () => {
  * Create User Table
  */
 const createUserTable = () => {
-  const userCreateQuery =
-    `CREATE TABLE IF NOT EXISTS users
-  (user_id SERIAL PRIMARY KEY, 
+  const userCreateQuery = `CREATE TABLE IF NOT EXISTS users
+  (id SERIAL PRIMARY KEY, 
   email VARCHAR(100) UNIQUE NOT NULL, 
   first_name VARCHAR(100), 
   last_name VARCHAR(100), 
@@ -34,7 +33,7 @@ const createUserTable = () => {
  */
 const createBusTable = () => {
   const busCreateQuery = `CREATE TABLE IF NOT EXISTS bus
-    (bus_id SERIAL PRIMARY KEY,
+    (id SERIAL PRIMARY KEY,
     number_plate VARCHAR(100) NOT NULL,
     manufacturer VARCHAR(100) NOT NULL,
     model VARCHAR(100) NOT NULL,
@@ -58,8 +57,8 @@ const createBusTable = () => {
  */
 const createTripTable = () => {
   const tripCreateQuery = `CREATE TABLE IF NOT EXISTS trip
-    (trip_id SERIAL PRIMARY KEY, 
-    bus_id INTEGER REFERENCES bus(bus_id) ON DELETE CASCADE,
+    (id SERIAL PRIMARY KEY, 
+    bus_id INTEGER REFERENCES bus(id) ON DELETE CASCADE,
     origin VARCHAR(300) NOT NULL, 
     destination VARCHAR(300) NOT NULL,
     trip_date DATE NOT NULL,
@@ -82,10 +81,10 @@ const createTripTable = () => {
  * Create Booking Table
  */
 const createBookingTable = () => {
-  const bookingCreateQuery = `CREATE TABLE IF NOT EXISTS booking(booking_id SERIAL, 
-    trip_id INTEGER REFERENCES trip(trip_id) ON DELETE CASCADE,
-    user_id INTEGER REFERENCES users(user_id) ON DELETE CASCADE,
-    bus_id INTEGER REFERENCES bus(bus_id) ON DELETE CASCADE,
+  const bookingCreateQuery = `CREATE TABLE IF NOT EXISTS booking(id SERIAL, 
+    trip_id INTEGER REFERENCES trip(id) ON DELETE CASCADE,
+    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+    bus_id INTEGER REFERENCES bus(id) ON DELETE CASCADE,
     trip_date DATE NOT NULL, 
     seat_number INTEGER UNIQUE NOT NULL,      
     first_name VARCHAR(100) NOT NULL,

@@ -60,7 +60,7 @@ describe('/POST new admin', () => {
     };
     chai.request(server)
       .post('/api/v1/admin/signup')
-      .set('x-access-token', token)
+      .set('token', token)
       .send(admin)
       .end((err, res) => {
         res.should.have.status(status.bad);
@@ -77,7 +77,7 @@ describe('/POST new admin', () => {
     };
     chai.request(server)
       .post('/api/v1/auth/signup')
-      .set('x-access-token', token)
+      .set('token', token)
       .send(admin)
       .end((err, res) => {
         res.should.have.status(status.bad);
@@ -97,7 +97,7 @@ describe('/POST new admin', () => {
     };
     chai.request(server)
       .post('/api/v1/admin/signup')
-      .set('x-access-token', token)
+      .set('token', token)
       .send(admin)
       .end((err, res) => {
         res.should.have.status(status.bad);
@@ -117,7 +117,7 @@ describe('/POST new admin', () => {
     };
     chai.request(server)
       .post('/api/v1/admin/signup')
-      .set('x-access-token', token)
+      .set('token', token)
       .send(admin)
       .end((err, res) => {
         res.should.have.status(status.bad);
@@ -137,7 +137,7 @@ describe('/POST new admin', () => {
     };
     chai.request(server)
       .post('/api/v1/admin/signup')
-      .set('x-access-token', token)
+      .set('token', token)
       .send(admin)
       .end((err, res) => {
         res.should.have.status(status.bad);
@@ -157,7 +157,7 @@ describe('/POST new admin', () => {
     };
     chai.request(server)
       .post('/api/v1/admin/signup')
-      .set('x-access-token', token)
+      .set('token', token)
       .send(admin)
       .end((err, res) => {
         res.should.have.status(status.bad);
@@ -177,7 +177,7 @@ describe('/POST new admin', () => {
     };
     chai.request(server)
       .post('/api/v1/admin/signup')
-      .set('x-access-token', token)
+      .set('token', token)
       .send(admin)
       .end((err, res) => {
         res.should.have.status(status.bad);
@@ -197,7 +197,7 @@ describe('/POST new admin', () => {
     };
     chai.request(server)
       .post('/api/v1/admin/signup')
-      .set('x-access-token', token)
+      .set('token', token)
       .send(admin)
       .end((err, res) => {
         res.should.have.status(status.bad);
@@ -212,7 +212,7 @@ describe('/POST new admin', () => {
 describe('/PUT update user to admin', () => {
   it('it should not UPDATE a user to admin if auth token is not provided', (done) => {
     chai.request(server)
-      .put('/api/v1/user/1/is_admin')
+      .put('/api/v1/user/1/admin')
       .end((err, res) => {
         res.should.have.status(status.bad);
         res.body.should.be.a('object');
@@ -227,8 +227,8 @@ describe('/PUT update user to admin', () => {
       isAdmin: '',
     };
     chai.request(server)
-      .put('/api/v1/user/1/is_admin')
-      .set('x-access-token', token)
+      .put('/api/v1/user/1/admin')
+      .set('token', token)
       .send(admin)
       .end((err, res) => {
         res.should.have.status(status.bad);
@@ -244,8 +244,8 @@ describe('/PUT update user to admin', () => {
       isAdmin,
     };
     chai.request(server)
-      .put('/api/v1/user/1/is_admin')
-      .set('x-access-token', token)
+      .put('/api/v1/user/1/admin')
+      .set('token', token)
       .send(admin)
       .end((err, res) => {
         res.should.have.status(status.success);

@@ -8,6 +8,6 @@ const router = express.Router();
 // users Routes
 
 router.post('/admin/signup', verifyAuth, createAdmin);
-router.put('/user/:id/is_admin', verifyAuth, updateUserToAdmin);
+router.put('/user/:id/admin', verifyAuth, updateUserToAdmin);
 
 export default router;

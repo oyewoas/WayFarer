@@ -63,7 +63,7 @@ describe('/POST new bus', () => {
     };
     chai.request(server)
       .post('/api/v1/buses')
-      .set('x-access-token', token)
+      .set('token', token)
       .send(trip)
       .end((err, res) => {
         res.should.have.status(status.bad);
@@ -81,7 +81,7 @@ describe('/POST new bus', () => {
     };
     chai.request(server)
       .post('/api/v1/buses')
-      .set('x-access-token', token)
+      .set('token', token)
       .send(trip)
       .end((err, res) => {
         res.should.have.status(status.bad);
@@ -102,7 +102,7 @@ describe('/POST new bus', () => {
     };
     chai.request(server)
       .post('/api/v1/buses')
-      .set('x-access-token', token)
+      .set('token', token)
       .send(trip)
       .end((err, res) => {
         res.should.have.status(status.bad);
@@ -123,7 +123,7 @@ describe('/POST new bus', () => {
     };
     chai.request(server)
       .post('/api/v1/buses')
-      .set('x-access-token', token)
+      .set('token', token)
       .send(trip)
       .end((err, res) => {
         res.should.have.status(status.created);
@@ -140,7 +140,7 @@ describe('/GET/ all buses', () => {
   it('it should return a response of no buses if there are no buses yet', (done) => {
     chai.request(server)
       .get('/api/v1/buses')
-      .set('x-access-token', token)
+      .set('token', token)
       .end((err, res) => {
         if (res.body.data === undefined) {
           res.should.have.status(status.notfound);
@@ -154,7 +154,7 @@ describe('/GET/ all buses', () => {
   it('it should GET all buses for an admin', (done) => {
     chai.request(server)
       .get('/api/v1/buses')
-      .set('x-access-token', token)
+      .set('token', token)
       .end((err, res) => {
         res.should.have.status(status.success);
         res.body.should.be.a('object');
