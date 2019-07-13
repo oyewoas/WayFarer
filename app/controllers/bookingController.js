@@ -29,8 +29,8 @@ const createBooking = async (req, res) => {
   } = req.user;
   const created_on = moment(new Date());
 
-  if (empty(trip_id) || empty(bus_id) || empty(trip_date) || empty(seat_number)) {
-    errorMessage.error = 'All fields are required';
+  if (empty(trip_id)) {
+    errorMessage.error = 'Trip is required';
     return res.status(status.bad).send(errorMessage);
   }
   const createBookingQuery = `INSERT INTO
