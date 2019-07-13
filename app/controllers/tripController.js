@@ -9,7 +9,7 @@ import {
 
 
 import {
-  errorMessage, successMessage, status,
+  errorMessage, successMessage, status, trip_statuses,
 } from '../helpers/status';
 
 /**
@@ -47,7 +47,7 @@ const createTrip = async (req, res) => {
     fare,
     created_on,
   ];
-    
+
   try {
     const { rows } = await dbQuery.query(createTripQuery, values);
     const dbResponse = rows[0];
@@ -61,8 +61,8 @@ const createTrip = async (req, res) => {
 
 /**
    * Get All Trips
-   * @param {object} req 
-   * @param {object} res 
+   * @param {object} req
+   * @param {object} res
    * @returns {object} trips array
    */
 const getAllTrips = async (req, res) => {
@@ -77,28 +77,32 @@ const getAllTrips = async (req, res) => {
     successMessage.data = dbResponse;
     return res.status(status.success).send(successMessage);
   } catch (error) {
-    errorMessage.error = 'An error Occured';
+    errorMessage.error = 'Operation was not successful';
     return res.status(status.error).send(errorMessage);
   }
 };
 
 /**
    * cancel A Trip
-   * @param {object} req 
-   * @param {object} res 
+   * @param {object} req
+   * @param {object} res
    * @returns {void} return Trip cancelled successfully
    */
 const cancelTrip = async (req, res) => {
   const { tripId } = req.params;
   const { is_admin } = req.user;
-
+  const { cancelled } = trip_statuses;
   if (!is_admin === true) {
     errorMessage.error = 'Sorry You are unauthorized to cancel a trip';
     return res.status(status.bad).send(errorMessage);
   }
-  const deleteTripQuery = 'DELETE FROM trip WHERE trip_id=$1 returning *';
+  const cancelTripQuery = 'UPDATE trip SET status=$1 WHERE trip_id=$2 returning *';
+  const values = [
+    cancelled,
+    tripId,
+  ];
   try {
-    const { rows } = await dbQuery.query(deleteTripQuery, [tripId]);
+    const { rows } = await dbQuery.query(cancelTripQuery, values);
     const dbResponse = rows[0];
     if (!dbResponse) {
       errorMessage.error = 'There is no trip with that id';
@@ -108,14 +112,15 @@ const cancelTrip = async (req, res) => {
     successMessage.data.message = 'Trip cancelled successfully';
     return res.status(status.success).send(successMessage);
   } catch (error) {
-    return res.status(status.error).send(error);
+    errorMessage.error = 'Operation was not successful';
+    return res.status(status.error).send(errorMessage);
   }
 };
 
 /**
  * filter trips by origin
- * @param {object} req 
- * @param {object} res 
+ * @param {object} req
+ * @param {object} res
  * @returns {object} returned trips
  */
 const filterTripByOrigin = async (req, res) => {
@@ -139,8 +144,8 @@ const filterTripByOrigin = async (req, res) => {
 
 /**
  * filter trips by destination
- * @param {object} req 
- * @param {object} res 
+ * @param {object} req
+ * @param {object} res
  * @returns {object} returned trips
  */
 const filterTripByDestination = async (req, res) => {

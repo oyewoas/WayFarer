@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 const successMessage = { status: 'success' };
 const errorMessage = { status: 'error' };
 const status = {
@@ -11,8 +12,13 @@ const status = {
   nocontent: 204,
 };
 
+const trip_statuses = {
+  active: 1.00,
+  cancelled: 2.00,
+}
 export {
   successMessage,
   errorMessage,
   status,
+  trip_statuses,
 };
