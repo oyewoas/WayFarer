@@ -55,7 +55,6 @@ const createBooking = async (req, res) => {
     successMessage.data = dbResponse;
     return res.status(status.created).send(successMessage);
   } catch (error) {
-    console.log(error)
     if (error.routine === '_bt_check_unique') {
       errorMessage.error = 'Seat Number is taken already';
       return res.status(status.conflict).send(errorMessage);
