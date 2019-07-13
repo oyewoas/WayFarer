@@ -66,7 +66,7 @@ const createTrip = async (req, res) => {
    * @returns {object} trips array
    */
 const getAllTrips = async (req, res) => {
-  const getAllTripsQuery = 'SELECT * FROM trip ORDER BY trip_id DESC';
+  const getAllTripsQuery = 'SELECT * FROM trip ORDER BY id DESC';
   try {
     const { rows } = await dbQuery.query(getAllTripsQuery);
     const dbResponse = rows;
@@ -90,13 +90,13 @@ const getAllTrips = async (req, res) => {
    */
 const cancelTrip = async (req, res) => {
   const { tripId } = req.params;
-  const { is_admin } = req.user;
+  const { admin } = req.user;
   const { cancelled } = trip_statuses;
-  if (!is_admin === true) {
+  if (!admin === true) {
     errorMessage.error = 'Sorry You are unauthorized to cancel a trip';
     return res.status(status.bad).send(errorMessage);
   }
-  const cancelTripQuery = 'UPDATE trip SET status=$1 WHERE trip_id=$2 returning *';
+  const cancelTripQuery = 'UPDATE trip SET status=$1 WHERE id=$2 returning *';
   const values = [
     cancelled,
     tripId,
@@ -126,7 +126,7 @@ const cancelTrip = async (req, res) => {
 const filterTripByOrigin = async (req, res) => {
   const { origin } = req.query;
 
-  const findTripQuery = 'SELECT * FROM trip WHERE origin=$1 ORDER BY trip_id DESC';
+  const findTripQuery = 'SELECT * FROM trip WHERE origin=$1 ORDER BY id DESC';
   try {
     const { rows } = await dbQuery.query(findTripQuery, [origin]);
     const dbResponse = rows;
@@ -151,7 +151,7 @@ const filterTripByOrigin = async (req, res) => {
 const filterTripByDestination = async (req, res) => {
   const { destination } = req.query;
 
-  const findTripQuery = 'SELECT * FROM trip WHERE destination=$1 ORDER BY trip_id DESC';
+  const findTripQuery = 'SELECT * FROM trip WHERE destination=$1 ORDER BY id DESC';
   try {
     const { rows } = await dbQuery.query(findTripQuery, [destination]);
     const dbResponse = rows;

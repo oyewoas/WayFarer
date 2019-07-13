@@ -71,8 +71,8 @@ const createBooking = async (req, res) => {
    * @returns {object} buses array
    */
 const getAllBookings = async (req, res) => {
-  const { is_admin, user_id } = req.user;
-  if (!is_admin === true) {
+  const { admin, user_id } = req.user;
+  if (!admin === true) {
     const getAllBookingsQuery = 'SELECT * FROM booking WHERE user_id = $1';
     try {
       const { rows } = await dbQuery.query(getAllBookingsQuery, [user_id]);
@@ -88,7 +88,7 @@ const getAllBookings = async (req, res) => {
       return res.status(status.error).send(errorMessage);
     }
   }
-  const getAllBookingsQuery = 'SELECT * FROM booking ORDER BY booking_id DESC';
+  const getAllBookingsQuery = 'SELECT * FROM booking ORDER BY id DESC';
   try {
     const { rows } = await dbQuery.query(getAllBookingsQuery);
     const dbResponse = rows;
@@ -113,7 +113,7 @@ const getAllBookings = async (req, res) => {
 const deleteBooking = async (req, res) => {
   const { bookingId } = req.params;
   const { user_id } = req.user;
-  const deleteBookingQuery = 'DELETE FROM booking WHERE booking_id=$1 AND user_id = $2 returning *';
+  const deleteBookingQuery = 'DELETE FROM booking WHERE id=$1 AND user_id = $2 returning *';
   try {
     const { rows } = await dbQuery.query(deleteBookingQuery, [bookingId, user_id]);
     const dbResponse = rows[0];
@@ -145,9 +145,9 @@ const updateBookingSeat = async (req, res) => {
     errorMessage.error = 'Seat Number is needed';
     return res.status(status.bad).send(errorMessage);
   }
-  const findBookingQuery = 'SELECT * FROM booking WHERE booking_id=$1';
+  const findBookingQuery = 'SELECT * FROM booking WHERE id=$1';
   const updateBooking = `UPDATE booking
-        SET seat_number=$1 WHERE user_id=$2 AND booking_id=$3 returning *`;
+        SET seat_number=$1 WHERE user_id=$2 AND id=$3 returning *`;
   try {
     const { rows } = await dbQuery.query(findBookingQuery, [bookingId]);
     const dbResponse = rows[0];
