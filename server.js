@@ -1,7 +1,6 @@
 import express from 'express';
 import 'babel-polyfill';
 import cors from 'cors';
-import swaggerUi from 'swagger-ui-express';
 import env from './env';
 import usersRoute from './app/routes/usersRoute';
 import seedRoute from './app/routes/seedRoute';
