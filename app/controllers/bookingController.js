@@ -25,7 +25,7 @@ const createBooking = async (req, res) => {
   } = req.body;
 
   const {
-    first_name, last_name, user_id, email,
+    first_name, last_name, user_id, email, token,
   } = req.user;
   const created_on = moment(new Date());
 
@@ -71,8 +71,8 @@ const createBooking = async (req, res) => {
    * @returns {object} buses array
    */
 const getAllBookings = async (req, res) => {
-  const { admin, user_id } = req.user;
-  if (!admin === true) {
+  const { admin, user_id, token } = req.user;
+  if (!admin === true && token) {
     const getAllBookingsQuery = 'SELECT * FROM booking WHERE user_id = $1';
     try {
       const { rows } = await dbQuery.query(getAllBookingsQuery, [user_id]);
@@ -112,7 +112,7 @@ const getAllBookings = async (req, res) => {
    */
 const deleteBooking = async (req, res) => {
   const { bookingId } = req.params;
-  const { user_id } = req.user;
+  const { user_id, token } = req.user;
   const deleteBookingQuery = 'DELETE FROM booking WHERE id=$1 AND user_id = $2 returning *';
   try {
     const { rows } = await dbQuery.query(deleteBookingQuery, [bookingId, user_id]);
@@ -139,7 +139,7 @@ const updateBookingSeat = async (req, res) => {
   const { bookingId } = req.params;
   const { seat_number } = req.body;
 
-  const { user_id } = req.user;
+  const { user_id, token } = req.user;
 
   if (empty(seat_number)) {
     errorMessage.error = 'Seat Number is needed';

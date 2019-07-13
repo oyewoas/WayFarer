@@ -24,8 +24,8 @@ const addBusDetails = async (req, res) => {
     number_plate, manufacturer, model, year, capacity,
   } = req.body;
   
-  const { admin } = req.user;
-  if (!admin === true) {
+  const { admin, token } = req.user;
+  if (!admin === true && !token) {
     errorMessage.error = 'Sorry You are unauthorized to add a bus details';
     return res.status(status.bad).send(errorMessage);
   }
@@ -68,8 +68,8 @@ const addBusDetails = async (req, res) => {
    * @returns {object} buses array
    */
 const getAllBuses = async (req, res) => {
-  const { admin } = req.user;
-  if (!admin === true) {
+  const { admin, token } = req.user;
+  if (!admin === true && !token) {
     errorMessage.error = 'Sorry You are unauthorized to view all buses';
     return res.status(status.bad).send(errorMessage);
   }

@@ -26,12 +26,12 @@ const createAdmin = async (req, res) => {
     email, first_name, last_name, password,
   } = req.body;
 
-  const { admin } = req.user;
+  const { admin, token } = req.user;
 
   const isAdmin = true;
   const created_on = moment(new Date());
 
-  if (!admin === true) {
+  if (!admin === true && !token) {
     errorMessage.error = 'Sorry You are unauthorized to create an admin';
     return res.status(status.bad).send(errorMessage);
   }
@@ -88,9 +88,8 @@ const updateUserToAdmin = async (req, res) => {
   const { id } = req.params;
   const { isAdmin } = req.body;
 
-  const { admin } = req.user;
-
-  if (!admin === true) {
+  const { admin, token } = req.user;
+  if (!admin === true && !token) {
     errorMessage.error = 'Sorry You are unauthorized to make a user an admin';
     return res.status(status.bad).send(errorMessage);
   }

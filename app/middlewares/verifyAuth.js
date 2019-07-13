@@ -26,6 +26,7 @@ const verifyToken = async (req, res, next) => {
   try {
     const decoded = await jwt.verify(token, env.secret);
     req.user = {
+      token,
       user_id: decoded.user_id,
       admin: decoded.is_admin,
       first_name: decoded.first_name,
