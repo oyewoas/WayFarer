@@ -62,7 +62,7 @@ describe('/POST new booking', () => {
     };
     chai.request(server)
       .post('/api/v1/bookings')
-      .set('x-access-token', token)
+      .set('token', token)
       .send(booking)
       .end((err, res) => {
         res.should.have.status(status.bad);
@@ -82,7 +82,7 @@ describe('/POST new booking', () => {
     };
     chai.request(server)
       .post('/api/v1/bookings')
-      .set('x-access-token', token)
+      .set('token', token)
       .send(booking)
       .end((err, res) => {
         res.should.have.status(status.created);
@@ -100,7 +100,7 @@ describe('/GET/ all bookings', () => {
   it('it should return a response of no bookings if there are no bookings yet for an admin', (done) => {
     chai.request(server)
       .get('/api/v1/bookings')
-      .set('x-access-token', token)
+      .set('token', token)
       .end((err, res) => {
         if (res.body.data === undefined) {
           res.should.have.status(status.error);
@@ -114,7 +114,7 @@ describe('/GET/ all bookings', () => {
   it('it should GET all bookings for an admin', (done) => {
     chai.request(server)
       .get('/api/v1/bookings')
-      .set('x-access-token', token)
+      .set('token', token)
       .end((err, res) => {
         res.should.have.status(status.success);
         res.body.should.be.a('object');
@@ -130,7 +130,7 @@ describe('/DELETE/ delete bookings', () => {
   it('it should return a response if there are no bookings with that id or delete and return booking deleted successfully', (done) => {
     chai.request(server)
       .delete('/api/v1/bookings/1')
-      .set('x-access-token', token)
+      .set('token', token)
       .end((err, res) => {
         if (res.body.data === undefined) {
           res.should.have.status(status.notfound);
@@ -168,7 +168,7 @@ describe('/PUT update seat number of a booking', () => {
     };
     chai.request(server)
       .put('/api/v1/bookings/1')
-      .set('x-access-token', token)
+      .set('token', token)
       .send(booking)
       .end((err, res) => {
         res.should.have.status(status.bad);

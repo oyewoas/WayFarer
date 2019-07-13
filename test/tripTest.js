@@ -64,7 +64,7 @@ describe('/POST new trip', () => {
     };
     chai.request(server)
       .post('/api/v1/trips')
-      .set('x-access-token', token)
+      .set('token', token)
       .send(trip)
       .end((err, res) => {
         res.should.have.status(status.bad);
@@ -82,7 +82,7 @@ describe('/POST new trip', () => {
     };
     chai.request(server)
       .post('/api/v1/trips')
-      .set('x-access-token', token)
+      .set('token', token)
       .send(trip)
       .end((err, res) => {
         res.should.have.status(status.bad);
@@ -103,7 +103,7 @@ describe('/POST new trip', () => {
     };
     chai.request(server)
       .post('/api/v1/trips')
-      .set('x-access-token', token)
+      .set('token', token)
       .send(trip)
       .end((err, res) => {
         res.should.have.status(status.bad);
@@ -124,7 +124,7 @@ describe('/POST new trip', () => {
     };
     chai.request(server)
       .post('/api/v1/trips')
-      .set('x-access-token', token)
+      .set('token', token)
       .send(trip)
       .end((err, res) => {
         res.should.have.status(status.created);
@@ -140,7 +140,7 @@ describe('/GET/ all trips', () => {
   it('it should return a response of no trips if there are no trips yet', (done) => {
     chai.request(server)
       .get('/api/v1/trips')
-      .set('x-access-token', token)
+      .set('token', token)
       .end((err, res) => {
         if (res.body.data === undefined) {
           res.should.have.status(status.notfound);
@@ -154,7 +154,7 @@ describe('/GET/ all trips', () => {
   it('it should GET trips for both users and admins', (done) => {
     chai.request(server)
       .get('/api/v1/trips')
-      .set('x-access-token', token)
+      .set('token', token)
       .end((err, res) => {
         res.should.have.status(status.success);
         res.body.should.be.a('object');
@@ -170,7 +170,7 @@ describe('/DELETE/ delete trips', () => {
   it('it should return a response if there are no trips with that id or delete and return trip cancelled successfully', (done) => {
     chai.request(server)
       .patch('/api/v1/trips/1')
-      .set('x-access-token', token)
+      .set('token', token)
       .end((err, res) => {
         if (res.body.data === undefined) {
           res.should.have.status(status.notfound);
@@ -193,7 +193,7 @@ describe('/GET/ filter trips by origin', () => {
   it('it should return a response of no trips if there are no trips with that origin', (done) => {
     chai.request(server)
       .get('/api/v1/trips/origin?origin=ibadan')
-      .set('x-access-token', token)
+      .set('token', token)
       .end((err, res) => {
         if (res.body.data === undefined) {
           res.should.have.status(status.notfound);
@@ -207,7 +207,7 @@ describe('/GET/ filter trips by origin', () => {
   it('it should GET trips with that origin', (done) => {
     chai.request(server)
       .get('/api/v1/trips/origin?origin=Lagos')
-      .set('x-access-token', token)
+      .set('token', token)
       .end((err, res) => {
         res.should.have.status(status.success);
         res.body.should.be.a('object');
@@ -223,7 +223,7 @@ describe('/GET/ filter trips by destination', () => {
   it('it should return a response of no trips if there are no trips with that destination', (done) => {
     chai.request(server)
       .get('/api/v1/trips/destination?destination=ibadan')
-      .set('x-access-token', token)
+      .set('token', token)
       .end((err, res) => {
         if (res.body.data === undefined) {
           res.should.have.status(status.notfound);
@@ -237,7 +237,7 @@ describe('/GET/ filter trips by destination', () => {
   it('it should GET trips with that origin', (done) => {
     chai.request(server)
       .get('/api/v1/trips/destination?destination=lagos')
-      .set('x-access-token', token)
+      .set('token', token)
       .end((err, res) => {
         res.should.have.status(status.success);
         res.body.should.be.a('object');
