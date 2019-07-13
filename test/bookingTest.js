@@ -68,7 +68,7 @@ describe('/POST new booking', () => {
         res.should.have.status(status.bad);
         res.body.should.be.a('object');
         res.body.should.have.property('status').eql('error');
-        res.body.should.have.property('error').eql('All fields are required');
+        res.body.should.have.property('error').eql('Trip is required');
         done(err);
       });
   });

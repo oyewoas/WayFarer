@@ -91,7 +91,7 @@ const createBookingTable = () => {
     last_name VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL,      
     created_on DATE NOT NULL,
-    PRIMARY KEY (id, trip_id, user_id, bus_id))`;
+    PRIMARY KEY (id, trip_id, user_id))`;
   pool.query(bookingCreateQuery)
     .then((res) => {
       console.log(res);
