@@ -23,8 +23,8 @@ const createTrip = async (req, res) => {
     bus_id, origin, destination, trip_date, fare,
   } = req.body;
 
-  const { is_admin } = req.user;
-  if (!is_admin === true) {
+  const { admin } = req.user;
+  if (!admin === true) {
     errorMessage.error = 'Sorry You are unauthorized to create a trip';
     return res.status(status.bad).send(errorMessage);
   }
