@@ -66,6 +66,8 @@ const createUser = async (req, res) => {
       errorMessage.error = 'User with that EMAIL already exist';
       return res.status(status.conflict).send(errorMessage);
     }
+    errorMessage.error = 'Operation was not successful';
+    return res.status(status.error).send(errorMessage);
   }
 };
 
@@ -103,7 +105,8 @@ const siginUser = async (req, res) => {
     successMessage.data.token = token;
     return res.status(status.success).send(successMessage);
   } catch (error) {
-    return res.status(400).send(error);
+    errorMessage.error = 'Operation was not successful';
+    return res.status(status.error).send(errorMessage);
   }
 };
 
