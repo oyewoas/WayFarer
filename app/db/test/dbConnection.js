@@ -85,13 +85,13 @@ const createBookingTable = () => {
     trip_id INTEGER REFERENCES trip(id) ON DELETE CASCADE,
     user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
     bus_id INTEGER REFERENCES bus(id) ON DELETE CASCADE,
-    trip_date DATE NOT NULL, 
-    seat_number INTEGER UNIQUE NOT NULL,      
+    trip_date DATE, 
+    seat_number INTEGER UNIQUE,      
     first_name VARCHAR(100) NOT NULL,
     last_name VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL,      
     created_on DATE NOT NULL,
-    PRIMARY KEY (booking_id, trip_id, user_id, bus_id))`;
+    PRIMARY KEY (id, trip_id, user_id, bus_id))`;
   pool.query(bookingCreateQuery)
     .then((res) => {
       console.log(res);
