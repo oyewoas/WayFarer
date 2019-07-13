@@ -71,10 +71,10 @@ const empty = (input) => {
    * @param {string} id
    * @returns {string} token
    */
-const generateUserToken = (email, user_id, is_admin, first_name, last_name) => {
+const generateUserToken = (email, id, is_admin, first_name, last_name) => {
   const token = jwt.sign({
     email,
-    user_id,
+    user_id: id,
     is_admin,
     first_name,
     last_name,
