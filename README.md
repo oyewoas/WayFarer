@@ -12,8 +12,8 @@ WayFarer is a public bus transportation booking server, developed the back-end A
 - [Features](#features)
 - [Contributing](#contributing)
 - [Prerequisites](#prerequisites)
-- [Setting Up](#setting_up)
-- [API Documentation](#api_documentation)
+- [Setting Up](#settingup)
+- [API Documentation](#apidocumentation)
 - [License](#license)
 
 
