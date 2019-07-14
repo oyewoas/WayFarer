@@ -12,8 +12,8 @@ WayFarer is a public bus transportation booking server, developed the back-end A
 - [Features](#features)
 - [Contributing](#contributing)
 - [Prerequisites](#prerequisites)
-- [Setting Up](#settingup)
-- [API Documentation](#apidocumentation)
+- [Settings](#settings)
+- [API Documentation](#documentation)
 - [License](#license)
 
 
@@ -90,7 +90,7 @@ WayFarer is a public bus transportation booking server, developed the back-end A
 - DBeaver: DBeaver is free and open source universal database tool for developers and database administrators.
   (https://dbeaver.io/download/), this is optional though, you can use any other GUI for postgreSQL.
 
-## Setting Up
+## Settings
   If you want set up locally you can follow these steps, you can also use `postman`(https://www.getpostman.com/downloads/) to test. Clone the repository, open terminal in root and do the following on terminal
 
    ```shell
@@ -119,7 +119,7 @@ WayFarer is a public bus transportation booking server, developed the back-end A
    ```shell
    $ npm run test
    ```
-## API Documentation
+## Documentation
    POSTMAN : https://documenter.getpostman.com/view/6229713/SVSHrpDW
 
 ## License
